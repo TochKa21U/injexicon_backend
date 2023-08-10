@@ -31,6 +31,8 @@ class ChallangeQuestion(SQLModel, table=True):
     user_id: Optional[int] = Field(default=None, foreign_key="users.id") # User Assoicated ID to find who has posted
     LevelName : str = Field()
     PromptGuard : str = Field()
+    InputGuard : Optional[str]
+    SanitizerGuard : Optional[str]
     LevelInformation : Optional[str] # Information that would be displayed to user about level
     TotalSubmitted : int = Field(default=0) # Amount of Submission in total
     levelcode: str = Field(default=uuid.uuid4())
