@@ -3,13 +3,10 @@
 # ONLY THING USER NEEDS TO DO IS INPUT HIS OWN TOKEN(API TOKEN)
 from apisrc.db.models import ChallangeQuestion, ChallangeSubmission
 from apisrc.db.CRUD import read, find_first
+from apisrc.warden.warden_dto import GuardPromptsDTO,RunGuardsDTO, SubmissionDTO
+from apisrc.warden.config import runAgent, submissionCheck
 from pydantic import BaseModel
 from typing import Optional
-
-class GuardPromptsDTO(BaseModel):
-    InputGuard : Optional[str] # Input
-    SystemContext : str = Field() # System 
-    SanitizerGuard : Optional[str] # Output
 
 def GetAllGuards(levelcode : str):
     """Will get the Guards and return it as interface"""
@@ -17,4 +14,14 @@ def GetAllGuards(levelcode : str):
     if not LevelDetail:
         return None
     return GuardPromptsDTO(InputGuard=LevelDetail.InputGuard,SystemContext=LevelDetail.SystemContext,SanitizerGuard=LevelDetail.SanitizerGuard)
-    
+
+def PreparePayloadForWarden(user_input:str, levelcode : str):
+    """Will be used when user question is present and guards are taken from it"""
+    guards = GetAllGuards(levelcode=levelcode)
+    return RunGuardsDTO(user_input=user_input,system_context=guards.SystemContext,sanitizer=guards.SanitizerGuard,input_guard=guards.InputGuard)
+
+def checkLevelSubmission(payload : SubmissionDTO):
+    return submissionCheck(secretphrase=payload.secretphrase,submission_input=payload.submission_input)
+
+def AskToWarden(payload : RunGuardsDTO):
+    return runAgent(user_input=payload.user_input,system_context=payload.system_context,sanitizer=payload.sanitizer,input_guard=payload.input_guard)
