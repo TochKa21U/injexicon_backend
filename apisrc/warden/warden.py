@@ -15,7 +15,7 @@ def GetAllGuards(levelcode : str):
         return None
     return GuardPromptsDTO(InputGuard=LevelDetail.InputGuard,SystemContext=LevelDetail.SystemContext,SanitizerGuard=LevelDetail.SanitizerGuard)
 
-def PreparePayloadForWarden(user_input:str, levelcode : str):
+def PreparePayloadForWarden(user_input:str, levelcode : str) -> RunGuardsDTO:
     """Will be used when user question is present and guards are taken from it"""
     guards = GetAllGuards(levelcode=levelcode)
     return RunGuardsDTO(user_input=user_input,system_context=guards.SystemContext,sanitizer=guards.SanitizerGuard,input_guard=guards.InputGuard)
