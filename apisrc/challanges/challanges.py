@@ -28,4 +28,4 @@ def submit_answer(payload: ChallangeSubmitSecret):
     # return foundLevel.levelcode == payload.levelcode # Return whether answer is correct
     # Note : This version is case sensitive means that if the alphabets are not inserted in correct case answer will return false
     # Alternative non case sensitive
-    return foundLevel.levelcode.lower() == payload.levelcode.lower()
+    return foundLevel.levelsecret.lower() == payload.secretcode.lower()
