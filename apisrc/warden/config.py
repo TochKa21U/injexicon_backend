@@ -6,6 +6,7 @@ from langchain.prompts.chat import (
     HumanMessagePromptTemplate,
 )
 from langchain.schema import AIMessage, HumanMessage, SystemMessage
+import os
 """
 THERE WILL BE MULTIPLE WAY TO ADD THE GUARDS
 1 - INPUT GUARD : TO CHECK WHETHER USER INPUT IS MALICIOUS
@@ -25,8 +26,9 @@ SYSTEM PROMPT : GUARD MESSAGE
 !IDEA
 Submissions can be also automatically corrected with Checking over LLM
 """
-
-chat = ChatOpenAI(temperature=0, openai_api_key="sk-WILL_DO_IT_IN_ENV")
+openai_api_key = os.getenv("OPENAPI_KEY","")
+os.environ["OPENAI_API_KEY"] = openai_api_key
+chat = ChatOpenAI(temperature=0, openai_api_key=openai_api_key)
 
 def generatePromptMessages(user_input : str,guard_input : str, ai_input: str = ""):
     """Defines the Guard Input and User input and returns back and chat Prompt"""
