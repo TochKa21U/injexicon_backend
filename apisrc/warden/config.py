@@ -26,7 +26,7 @@ SYSTEM PROMPT : GUARD MESSAGE
 Submissions can be also automatically corrected with Checking over LLM
 """
 
-chat = ChatOpenAI(temperature=0, openai_api_key="sk-KEYWILLBEPLACEDLATER")
+chat = ChatOpenAI(temperature=0, openai_api_key="sk-WILL_DO_IT_IN_ENV")
 
 def generatePromptMessages(user_input : str,guard_input : str, ai_input: str = ""):
     """Defines the Guard Input and User input and returns back and chat Prompt"""

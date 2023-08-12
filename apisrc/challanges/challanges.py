@@ -21,7 +21,7 @@ def submit_prompt(payload:ChallangeSubmitAnswer):
     return answer
 
 def submit_answer(payload: ChallangeSubmitSecret):
-    """Used when user sends a prompt to the LLM"""
+    """Used when user sends the level password"""
     foundLevel = find_first(ChallangeQuestion,filter_by={"levelcode":payload.levelcode})
     if not foundLevel:
         return {"Error":"Level is not found","status":404}

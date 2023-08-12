@@ -13,5 +13,5 @@ class RunGuardsDTO(BaseModel):
 
 class GuardPromptsDTO(BaseModel):
     InputGuard : Optional[str] # Input
-    SystemContext : str = Field() # System 
+    SystemContext : str # System 
     SanitizerGuard : Optional[str] # Output
