@@ -5,6 +5,9 @@ from apisrc.routes import user_routes, challange_routes
 from apisrc.db.database import create_tables
 from dotenv import load_dotenv
 
+# load environment variables
+load_dotenv()
+
 # Disable tracing on LangChain
 os.environ["LANGCHAIN_HANDLER"] = ""
 
