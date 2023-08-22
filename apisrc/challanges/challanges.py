@@ -62,5 +62,5 @@ def get_level_info_with_hint(levelcode:str,payload:ChallangeRevealHints):
             levelinfo_data[key] = level_dict[key]
 
     levelinfo = ChallangeLevelPublic(**levelinfo_data)
-    
+
     return levelinfo

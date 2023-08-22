@@ -53,12 +53,12 @@ def submit_newchallange(payload : ChallangeSubmitNewLevel,current_user: dict[str
     print(f"User info : {current_user}\nUser ID : {current_user.id}\nType : {type(current_user.id)}")
     return submit_new_challange(payload=payload,user_id=current_user.id)
 
-@router.post("/levelsecret/{levelcode}")
+@router.get("/levelsecret/{levelcode}")
 def submit_secretcode(levelcode:str,secretcode:str):
-    payload = ChallangeSubmitSecret(secretcode=prompt,levelcode=levelcode)
+    payload = ChallangeSubmitSecret(secretcode=secretcode,levelcode=levelcode)
     return submit_answer(payload)
 
-@router.post("/prompt")
+@router.post("/prompt/{levelcode}")
 def submit_to_warden(levelcode:str,prompt:str):
     payload = ChallangeSubmitAnswer(Prompt=prompt,levelcode=levelcode)
     return submit_prompt(payload=payload)
