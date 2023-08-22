@@ -1,6 +1,6 @@
 # Will add the services, submitNewChallange, SubmitAnswer(Only For Users, Normal people can try it without signup)
 
-from apisrc.challanges.challanges_dto import ChallangeSubmitAnswer, ChallangeSubmitNewLevel, ChallangeSubmitSecret
+from apisrc.challanges.challanges_dto import ChallangeSubmitAnswer, ChallangeSubmitNewLevel, ChallangeSubmitSecret, ChallangeLevelPublic, ChallangeRevealHints
 from apisrc.db.CRUD import create,find_first
 from apisrc.db.models import ChallangeQuestion
 from apisrc.warden.warden import AskToWarden, PreparePayloadForWarden
@@ -29,3 +29,38 @@ def submit_answer(payload: ChallangeSubmitSecret):
     # Note : This version is case sensitive means that if the alphabets are not inserted in correct case answer will return false
     # Alternative non case sensitive
     return foundLevel.levelsecret.lower() == payload.secretcode.lower()
+
+def get_level_info(levelcode:str):
+    foundLevel = find_first(ChallangeQuestion,filter_by={"levelcode":levelcode})
+    if not foundLevel:
+        return {"Error":"Level is not found","status":404}
+    # Level is found, return public facing
+    levelinfo = ChallangeLevelPublic(LevelName=foundLevel.LevelName,LevelInformation=foundLevel.LevelInformation,levelcode=foundLevel.levelcode)
+    return levelinfo
+    # We can also make this one vulnerable by sharing some of the Level guards info in the response as well
+
+def get_level_info_with_hint(levelcode:str,payload:ChallangeRevealHints):
+    foundLevel = find_first(ChallangeQuestion,filter_by={"levelcode":levelcode})
+    if not foundLevel:
+        return {"Error":"Level is not found","status":404}
+    # Level is found and check for matching data
+    # # Vodoo code time,
+    # for i,v in enumerate(payload):
+    #     print(f"Index {i} Value : {v}\nKey name : {v[0]} Bool : {v[1]}")
+    # Vodoo Code
+    level_dict = foundLevel.dict()  # Convert the SQLModel instance to a dictionary
+
+    levelinfo_data = {
+        "LevelName": level_dict["LevelName"],
+        "LevelInformation": level_dict["LevelInformation"],
+        "levelcode": level_dict["levelcode"]
+    }
+
+    # Dynamically add attributes if they are in the payload and set to True
+    for key, value in payload:
+        if value:
+            levelinfo_data[key] = level_dict[key]
+
+    levelinfo = ChallangeLevelPublic(**levelinfo_data)
+    
+    return levelinfo

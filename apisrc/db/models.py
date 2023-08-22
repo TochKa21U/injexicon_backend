@@ -35,7 +35,7 @@ class ChallangeQuestion(SQLModel, table=True):
     SanitizerGuard : Optional[str]
     LevelInformation : Optional[str] # Information that would be displayed to user about level
     TotalSubmitted : int = Field(default=0) # Amount of Submission in total
-    levelcode: str = Field(default=uuid.uuid4(),unique=True)
+    levelcode: str = Field(default=str(uuid.uuid4()),unique=True)
     levelsecret : str = Field() # Level Secret Phrase
     isApproved : bool = Field(default=False)
 
