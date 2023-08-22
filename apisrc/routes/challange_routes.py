@@ -17,6 +17,24 @@ def protected_test():
 
 # Submit new challange , submit answer, submit prompt
 
+@router.get("/welcome/{leveltype}/{main}/{sub}")
+def getwelcomelevel(leveltype:str,main:str,sub:int):
+    """ 
+    GET Default games from us. It is categorized under Leveltype , Main Level and Sub level
+    They are : 
+    Leveltype : warden , librarian
+    Main : System, Input , Sanitizer - Warden ; Librarian,Technician,Disinformation - Librarian
+    Sub : Level number from 1 to whatever is recommended
+    """
+    pass
+
+@router.get("/level/{levelcode}")
+def get_level(levelcode:str):
+    """
+    GET level by level code itself
+    """
+    pass
+
 @router.post("/level")
 def submit_newchallange():
     pass
